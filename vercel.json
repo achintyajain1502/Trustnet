@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/", "dest": "/pbl.html" },
+    { "src": "/index", "dest": "/pbl.html" },
+    { "src": "/guidelines", "dest": "/guidelines.html" },
+    { "src": "/registerhere", "dest": "/registerhere.html" },
+    { "src": "/advisory", "dest": "/Advisory-board.html" },
+    { "src": "/call-for-papers", "dest": "/Call for papers.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

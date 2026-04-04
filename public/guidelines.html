@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Guidelines for Authors</title>
+ <link rel="stylesheet" href="styles.css">
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+ <style>
+ 
+body, h1, h2, p, a {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+.hero-banner {
+  background: url('hero-area.jpg') center center / cover no-repeat;
+  padding: 100px 20px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.hero-banner .content {
+  max-width: 800px;
+  margin: 0  auto;
+}
+
+
+.top-logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 40px;
+  background-color: white;
+}
+
+.top-logos img {
+  height: 70px;   /* Left logo size */
+  width: auto;
+}
+
+.right-logos img {
+  height: 35px;   /* Right logos size */
+  width: auto;
+}
+
+
+.right-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 35px;
+  width: auto;
+  
+}
+
+
+.logos h2 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.hero-banner h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.hero-banner .location,
+.hero-banner .date {
+  font-size: 18px;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+ul.tracks {
+  list-style-type: decimal;
+  padding-left: 25px;
+  margin-top: 10px; /* One line space between heading and list */
+  margin-bottom: 0;
+}
+
+ul.tracks li {
+  margin-bottom: 4px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Header Section */
+    .hero-section {
+      background: linear-gradient(to bottom, #b3e5fc, #81d4fa);
+      color: #003366;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .hero-section p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+	
+.top-right-logo {
+  position: absolute;
+  top: 20px;
+  right: 250px;
+  height: 200px;
+  width: auto;
+  z-index: 2;
+}
+
+    /* Submission Section */
+    .submission-section {
+      background-color: #f9f9f9;
+      padding: 60px 20px;
+    }
+
+    .submission-container {
+      background: white;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .submission-container h2 {
+      font-size: 2rem;
+      color: #002b5c;
+      margin-bottom: 20px;
+    }
+
+    .submission-container p {
+      font-size: 1.1rem;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    /* Two-column Section */
+    .requirements-formats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: #fdfdfd;
+      border-radius: 10px;
+      padding: 25px 30px;
+      width: 420px;
+      text-align: left;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      color: #0d355e;
+      margin-bottom: 15px;
+    }
+
+    .card ul {
+      list-style-type: number;
+      padding-left: 20px;
+      color: #333;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .timeline-section h2 {
+      font-size: 2rem;
+      color: #002b5c;
+      margin-bottom: 50px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 60px;
+    }
+
+    .timeline-item {
+      text-align: center;
+      max-width: 200px;
+    }
+
+    .timeline-item span {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #9aa1aa;
+      margin-bottom: 10px;
+    }
+
+    .timeline-item h4 {
+      font-size: 1.2rem;
+      color: #002b5c;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item p {
+      color: #444;
+      font-size: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 2.2rem;
+      }
+
+      .card {
+        width: 100%;
+      }
+
+      .timeline {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+
+.trustnet-banner {
+  display: block;
+  margin: 80px auto;
+  width: 90%;
+  max-width: 950px;
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 6px solid #fdf8f2; /* soft cream border to match site bg */
+  background-color: #fdf8f2; /* fallback blend color */
+  transition: all 0.3s ease-in-out;
+}
+
+.sponsor{
+display:flex;
+justify-content:center;
+gap:10px;
+padding-left:20px;
+margin-top: 10px;
+}
+
+.sponsor img{
+	height:100px;
+	width:auto;
+	align:center;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.main h2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #1f1f1f;
+  margin: 0 0 20px 0;  /* removes extra space */
+}
+
+.main {
+  max-width: 80%;
+  margin: 60px auto;
+}
+
+.main p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333333;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Make all sections adapt to screen width */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Responsive logo bar */
+.top-logos {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 20px;
+}
+
+.top-logos img {
+  height: auto;
+  max-height: 60px;
+  width: auto;
+}
+
+/* Right logo area responsive */
+.right-logos {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.right-logos img {
+  max-height: 35px;
+  height: auto;
+  width: auto;
+}
+
+/* Navbar responsive */
+.navbar {
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.nav-links {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.nav-links a {
+  font-size: 15px;
+}
+
+/* Hero banner image scales correctly */
+.hero-banner {
+  background-size: cover;
+  background-position: center;
+  padding: 80px 20px;
+}
+
+.hero-banner h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+/* Adjust the TrustNet logo */
+.top-right-logo {
+  position: absolute;
+  top: 20px;
+  right: 50%;
+  transform: translateX(50%);
+  max-width: 70%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .top-right-logo {
+    right: 250px;
+    transform: none;
+    max-width: 200px;
+  }
+}
+
+/* Make text sections fit mobile screens */
+.main {
+  width: 90%;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 10px;
+}
+
+.main h2, .main h1 {
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  text-align: center;
+}
+
+.main p, ul {
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: 1.7;
+}
+
+/* Make sponsor logos responsive */
+.sponsor {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.sponsor img {
+  max-height: 80px;
+  height: auto;
+}
+
+/* Cards and timeline already flex – make sure they stack properly */
+.card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.timeline {
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .timeline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 25px;
+  background: linear-gradient(to right, #2f6ec2, #6da9e9);
+  color: white;
+  justify-content: center;
+}
+
+
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+}
+
+</style>
+</head>
+<body>
+<nav class="top-logos">
+  <img src="./muj.png" alt="MUJ">
+  <div class="right-logos">
+    <img src="./scopus-logo.webp" alt="Scopus">
+    <img src="./springer.webp" alt="Springer">
+  </div>
+</nav>
+
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#About">About</a></li>
+      <li><a href="Call for papers.html">Call for Papers</a></li>
+	<li><a href="Advisory-board.html">Committee</a></li>
+<li><a href="guidelines.html">For Authors</a></li>
+      <li><a href="index.html#Program">Program</a></li>
+      <li><a href="index.html#Speaker">Speakers</a></li>
+      <li><a href="index.html#Sponsors">Sponsors</a></li>
+      <li><a href="index.html#Venue">Venue</a></li>
+<li><a href="Proposal Guidelines.html">Proposal Guidelines</a></li>
+      <li><a href="index.html#travel">Travel & Accommodation</a></li>
+    </ul>
+  </nav>
+
+<section class="hero-banner">
+<h1>Guidelines for Authors </h1>
+   
+      
+	<img src="./trust.png" alt="TrustNet Logo" class="top-right-logo">
+</section>
+
+<section class="main">
+    <h1><u>International Advisory Board</h1></u>
+<p>
+The International Conference on Trusted Networks and Intelligent Systems (TrustNet 2026) seeks original research contributions across various disciplines, provided the work's context is adequately articulated. Researchers are encouraged to submit their papers by the specified deadline. After this date, no new papers will be accepted for submission, although modifications to existing submissions will still be possible. This conference aims to bring together leading experts to discuss and share innovative ideas and advancements in AI and computing applications.</p><br>
+
+<h3>Paper Submission Link:  <a href="https://cmt3.research.microsoft.com/TrustNet2026">https://cmt3.research.microsoft.com/TrustNet2026</a></h3><br>
+
+<p>
+The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.</p><br>
+
+<h2>Manuscript Preparation and Submission Guidelines</h2>
+<p>
+All submissions for TrustNet will be managed through emails. By submitting, the authors agree to TrustNet 2026's policies. Each submission will receive a unique paper ID, which should be used in all communications. Kindly remember the paper ID and quote that ID in all further communications in the subject line when you email us your query.</p><br>
+
+<h2>Article Types</h2><p>
+Articles with novel research contributions on the conference's theme should be submitted to TrustNet 2026.</p><br>
+
+<h2>Language Style</h2>
+<p>
+The default language style at TrustNet 2026 is standard English language only. Authors should submit manuscripts in English only.</p><br>
+
+<h2>Manuscript Preparation Guidelines:</h2>
+<ul>
+  <li>Title: First letter of each word except helping verbs and connectors should be uppercase letters only.</li>
+  <li>Usage of first/second/third person (our, me, us, I, etc.) should be avoided in the manuscript.</li>
+  <li>Authors are required to proofread the paper for English usage (possibly by a native speaker proofreading).</li>
+  <li>Abbreviations should be avoided in abstract.</li>
+  <li>Include all figures in high resolution only. Try to keep the DPI of every figure above 500. Do not include blurred images.</li>
+  <li>Contents need to be well organized. Title, objective, research gap, proposed methodology, and results need to be inline.</li>
+  <li>Authors should include motivation and a paper organization at the end of the introduction section.</li>
+  <li>All images and tables must be numbered and provided with a suitable caption.</li>
+  <li>Do not paste tables as figures or snapshots.</li>
+  <li>All equations must be numbered sequentially and discussed in the text.</li>
+  <li>All images, tables, equations, and references must be cited in the text. Check in-text citations of all these items before final submission.</li>
+  <li>Mention at least 5 to 8 keywords in the manuscript.</li>
+  <li>Abbreviations should be expanded to their first usage only. Non-standard abbreviations should be avoided.</li>
+  <li>All sections and subsections of the manuscript must be numbered properly. Do not include headings beyond 3 levels.</li>
+  <li>Acknowledgements (if any) should be included after the conclusion section.</li>
+  <li>Author names and ordering must be kept identical in all places (i.e., Manuscript, Submission portal, and Consent to Publish form).</li>
+  <li>Include the name, affiliation and e-mail of all authors in both the manuscript as well as on the submission portal. In addition, do not forget to mention the details of the corresponding author.</li>
+  <li>The conclusion should be novel and supported by statistical remarks on the results of experimental study.</li>
+  <li>Reference items should be complete. Avoid incomplete and not cited references in the list.</li>
+  <li>Download the Word/LaTeX template from here Word Format or LaTex Format and submit your manuscript as per the template. The manuscript should be kept within the page limit of 10-12 pages.</li>
+</ul>
+<br>
+<h2>Confidentiality</h2><p>
+The conference committee maintains strict confidentiality throughout the process, from submission to decision-making on every article considered for review. Reviewers involved in this whole review process are from reputed universities throughout the globe, and the practice of keeping all information confidential during the review is part of the standard communication with all reviewers.</p><br>
+
+<h2>Review Process</h2><p>
+Once an article is submitted to the conference, the authors agree to our review policy, where the article will be peer-reviewed by professional reviewers after being checked for similarity index and plagiarism by plagiarism detection software (Turnitin). ICAIC 2025 respects Intellectual Property Rights. Plagiarism is defined as the incorrect appropriation of someone else's information, thoughts, or ideas and presenting them as one's own. The conference committee will not tolerate this sort of breach of ethical norms at any cost. Any article with more than 18% similarity index will be rejected immediately without further consideration. The similarity should not be greater than 2% from a single source.</p><br>
+
+<h2>Dual/Double Submissions Policy</h2><p>
+
+Our conference aims to present novel research and ensure efficient use of reviewers' efforts. Authors submitting manuscripts acknowledge that their work has not been previously published or accepted for publication in a substantially similar form in any peer-reviewed venue. Any breach of these conditions will result in rejection and notification to the other venue where the submission was made. Submissions should be original and not duplicate prior publications or ongoing submissions. Include citations in your manuscript if you need to reference another paper concurrently submitted to the conference. Clearly articulate in your paper how your submission differs significantly from these concurrent works and provide the additional papers in the supplemental material. Authors are encouraged to contact the Program Chairs for further clarification if needed.</p><br>
+
+<h2>Attendance responsibilities</h2><p>
+
+The authors must agree that if the paper is accepted, at least one of the authors will register for the conference and present the paper there. Acceptance of a paper does not claim for final publication. Only presented papers will be forwarded to the publication partner. Presenters will be provided with a certificate of paper presentation.</p><br>
+
+<h2>Publication</h2><p>
+
+Select accepted and presented papers at the conference will be submitted for publication through our publication partners. Before final publication, proofs may be sent to the corresponding author designated in the manuscript. It is crucial to provide the corresponding author's correct email address. Please regularly visit the conference website for updates on publication specifics.</p><br>
+
+<h2>Publicity</h2><p>
+
+All articles submitted to the conference cannot be fully or partially publicised on any social media platform until an official acceptance email is received from the publisher. If any author(s) violate this act, their article will be rejected for presentation and removed from the proceeding for publication.</p>

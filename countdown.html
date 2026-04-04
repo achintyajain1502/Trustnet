@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Template Creation</title>
+
+  <style>
+    .banner {
+  background: linear-gradient( #ff416c, #ff4b2b);
+  padding: 10px 30px;
+  color: white;
+
+  display: flex;          
+  align-items: center;     
+  gap: 20px;               }
+
+.banner-img {
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
+  padding: 0;               
+  display: flex;
+  align-items: center;
+  height: 50px;             
+  margin-right: 15px;
+}
+
+.banner-img img {
+  height: 50px;               width: auto;
+  display: block;
+}
+
+.pill-btn {
+  padding: 8px 20px;       
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 0 5px;           
+  white-space: nowrap;
+  font-size: 14px;         
+}
+
+
+    .pill-btn:hover {
+      background: #1e7e34;
+    }
+
+    body {
+      background: #FAF9F6	;
+      font-size: 15px;
+      font-weight: 400;
+      font-family: 'Open Sans', sans-serif;
+      box-sizing: border-box;
+      font-smoothing: subpixel-antialiased;
+      color: #212121;
+      line-height: 25px;
+      overflow-x: hidden;
+      text-align: justify;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-size: 40px;
+      font-weight: 250;
+      font-family: 'Roboto', sans-serif;
+      margin-bottom: 10px;
+      margin-left: 100px;
+    }
+
+    p {
+      margin-top: 5px;
+      font-weight: 500;
+      font-family: 'Open Sans', sans-serif;
+      margin: 10px 100px;
+      font-size: 20px;
+    }
+
+    /* Countdown timer styling */
+    .timer-container {
+      background-color: #252c54;
+      color: white;
+      padding: 20px 40px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    .time-box {
+      background-color: #2f375e;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .time-box h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .time-box p {
+      margin: 5px 0 0;
+      font-size: 16px;
+    }
+
+    .center-img {
+      display: block;
+      margin: 20px auto;
+      max-width: 90%;
+      height: auto;
+    }
+
+.speakers-container {
+  display: flex;
+  justify-content: center; 
+  gap: 30px; 
+  margin: 20px 0;
+}
+
+
+.speakers-container img {
+  border: 4px solid black; /* border around images */
+  height: 250px; /* fixed height */
+  width: auto;   /* maintain aspect ratio */
+  border-radius: 8px; /* optional rounded corners */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* subtle shadow */
+}
+
+.publication-logo{
+  display: flex;
+  justify-content: center; 
+  gap: 30px; 
+  margin: 20px 0;
+  height: 100px; 
+  width: auto;
+}
+.jaipur-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: 20px 100px;
+}
+
+.jaipur-container img {
+  height: 250px;
+  width: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  border: 3px solid #000;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+}
+
+.video-container video {
+  width: 50%;         /* Half the width of the page */
+  height: auto;       /* Maintain aspect ratio */
+  border: 4px solid black;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Buttons -->
+  <div class="banner">
+	<div class=banner-img>
+    <img src="muj.png" align:left;alt:"MUJ"></div>
+    <button onclick="location.href='#Confer'" class="pill-btn">Home</button>
+    <button onclick="location.href='#About'" class="pill-btn">About</button>
+    <button onclick="location.href='#call'" class="pill-btn">Call for Papers</button>
+    <button onclick="location.href='#Speaker'" class="pill-btn">Speakers</button>
+    <button onclick="location.href='#Commite'" class="pill-btn">Committee</button>
+    <button onclick="location.href='#Author'" class="pill-btn">For Authors</button>
+    <button onclick="location.href='#Venue'" class="pill-btn">Contact</button>
+    <button onclick="location.href='#imp'" class="pill-btn">Important Links</button>
+  </div>
+
+  <hr>
+
+  <!-- TRUSTNET'26 Banner -->
+  <img src="hero-banner.png" class="center-img" alt="Background">
+
+  <!-- Countdown Timer -->
+  <div class="timer-container">
+    <div class="time-box">
+      <h1 id="days">00</h1>
+      <p>Days</p>
+    </div>
+    <div class="time-box">
+      <h1 id="hours">00</h1>
+      <p>Hours</p>
+    </div>
+    <div class="time-box">
+      <h1 id="minutes">00</h1>
+      <p>Minutes</p>
+    </div>
+    <div class="time-box">
+      <h1 id="seconds">00</h1>
+      <p>Seconds</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+ 
+<h3 id="Confer"><b><u>
+About Conference</b></u></h3>
+<p>
+The Department of Computer Science and Engineering, Manipal University Jaipur, is pleased to announce that it will host the International Conference on Trusted Networks and Intelligent Systems (TrustNet 2026) on February 16–17, 2026. This conference is centered around a shared global goal: creating a safe, smart, and sustainable digital future. Discussions and research will focus on Cybersecurity and Artificial Intelligence (AI), contributing to both the United Nations Sustainable Development Goals (SDGs) and Digital India vision. By promoting Digital Trust, Innovation, and Security, the event will support progress toward goals related to Innovation, Sustainable Cities, Strong Institutions, and Quality Education.<p>
+ 
+<h2 id="About"><b><u>
+About Manipal University Jaipur</b></u></h2>
+<p>
+Established in 2011, Manipal University Jaipur (MUJ) is a proud member of the globally acclaimed Manipal Group, carrying forward the visionary legacy of Padma Shri Dr. T. M. A. Pai, whose mission was to make world-class education accessible and transformative. With NAAC A+ accreditation, MUJ stands as a multi-disciplinary, future-focused university that blends academic excellence with innovation. Offering a wide spectrum of career-oriented programs across engineering, architecture, design, law, management, humanities, sciences, and more, MUJ is committed to nurturing well-rounded individuals prepared for the demands of a global world. The university’s reputation is reinforced by national and international recognition: ranked 58th in both the University and Engineering categories by NIRF 2025 and featured in prestigious global rankings such as QS Asia (701–750 band) and Times Higher Education (1201–1500 band). Beyond academics, MUJ is known for its state-of-the-art infrastructure, cutting-edge research ecosystem, and a campus designed with sustainability at its core. It is the proud recipient of a 5-star GRIHA rating and the ASSOCHAM Award for Best University Campus, testaments to its commitment to excellence in every dimension.</p>
+
+<h2 id="Speaker"><b><u>Our Eminent Speakers</u></b></h2>
+
+<div class="speakers-container">
+  <div style="text-align:center;">
+    <img src="p1.webp" alt="Dr. Anupam Tiwari" />
+    <p><b>Dr. Anupam Tiwari</b><br>Cyber Advisor, Ministry of Defence, Government of India</p>
+  </div>
+  <div style="text-align:center;">
+    <img src="p2.webp" alt="Rajat Mittal" />
+    <p><b>Rajat Mittal</b><br>Associate Professor, IIT Kanpur</p>
+  </div>
+</div>
+
+
+
+
+<h2 id="Pub"><b><u> Publications </h2></b></u>
+<p>
+The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.<br>
+<div class="publication-logo">
+<img src="scopus-logo.webp" alt="logo">
+<img src="springer.webp" alt="logo">
+</div>
+<br>
+The proceedings of TrustNet’26 will be published in Lecture Notes in Networks and Systems (LNNS). LNNS is abstracted and indexed in SCOPUS, INSPEC, WTI Frankfurt eG, zbMATH, SCImago.
+</p>
+
+<h2 id="AboutJaipur"><b><u>About Jaipur</u></b></h2>
+<p>
+Jaipur, famously known as the Pink City, is the vibrant capital of Rajasthan and a remarkable testament to Indian architecture and culture. Founded in 1727 by Maharaja Jai Singh II, the city enchants visitors with its majestic forts, opulent palaces, and bustling colorful markets. Seamlessly blending its rich historical heritage with modern amenities, Jaipur offers a captivating setting for both tourism and professional events. Its warm hospitality, stunning architecture, and lively atmosphere make it an ideal destination, providing an unforgettable backdrop for our conference.
+</p>
+
+<div class="jaipur-container">
+  <img src="hawa-mahal.webp" alt="Hawa Mahal">
+  <img src="amber-fort.webp" alt="Amber Fort">
+  <img src="bapu-bazaar.webp" alt="Jaipur Market">
+</div>
+
+<h2 id="Venue"><b><u>Venue</u></b></h2>
+<p>
+The conference will be held at Manipal University Jaipur, a premier institution known for its state-of-the-art facilities and beautiful campus.</p>
+
+<div class="video-container">
+  <video autoplay muted loop controls>
+    <source src="MUJ_Venue.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+
+  <!-- Countdown Script -->
+  <script>
+    const targetDate = new Date("2026-02-16T00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+        clearInterval(interval);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = String(days).padStart(2, '0');
+      document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+      document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+    }
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+</body>
+</html>

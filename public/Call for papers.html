@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Call for Papers</title>
+ <link rel="stylesheet" href="styles.css">
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+ <style>
+/* ========== BASE RESET ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden; /* Prevents horizontal scroll */
+}
+
+/* ========== HEADER LOGOS ========== */
+.top-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background-color: white;
+}
+
+.top-logos img {
+  height: 60px;
+  width: auto;
+  max-width: 100%;
+}
+
+.right-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: linear-gradient(to right, #2f6ec2, #6da9e9);
+  padding: 12px 10px;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+}
+
+/* ========== HERO SECTION ========== */
+.hero-banner {
+  background: url('hero-area.jpg') center center / cover no-repeat;
+  padding: 80px 15px;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.hero-banner h1 {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  margin-bottom: 15px;
+}
+
+.hero-banner p {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  line-height: 1.5;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.top-right-logo {
+  position: absolute;
+  top: 20px;
+  right: 5%;
+  max-height: 120px;
+  width: auto;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .top-right-logo {
+    position: relative;
+    display: block;
+    margin: 20px auto 0;
+    max-height: 80px;
+  }
+}
+
+/* ========== SUBMISSION SECTION ========== */
+.submission-container {
+  background: white;
+  max-width: 95%;
+  margin: 40px auto;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.submission-container h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: #002b5c;
+  margin-bottom: 15px;
+}
+
+.submission-container p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.7;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+
+/* ========== FLEX CARDS ========== */
+.requirements-formats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.card {
+  flex: 1 1 320px;
+  max-width: 420px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  color: #0d355e;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* ========== TIMELINE ========== */
+.timeline-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.timeline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.timeline-item {
+  text-align: center;
+  max-width: 200px;
+}
+
+.timeline-item span {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #9aa1aa;
+  margin-bottom: 8px;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main {
+  width: 90%;
+  max-width: 1200px;
+  margin: 60px auto;
+}
+
+.main h2, .main h1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: #1f1f1f;
+  margin-bottom: 20px;
+}
+
+.main p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+  text-align: justify;
+}
+
+ul.tracks {
+  padding-left: 20px;
+}
+
+ul.tracks li {
+  line-height: 1.6;
+}
+
+/* ========== SPONSOR & IMAGE ========== */
+.trustnet-banner {
+  display: block;
+  margin: 60px auto;
+  width: 90%;
+  max-width: 950px;
+  height: auto;
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.sponsor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.sponsor img {
+  height: 80px;
+  width: auto;
+}
+
+/* ========== MEDIA QUERIES ========== */
+@media (max-width: 992px) {
+  .timeline {
+    gap: 25px;
+  }
+  .navbar {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .submission-container {
+    padding: 25px 15px;
+  }
+  .timeline {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-banner {
+    padding: 60px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links a {
+    font-size: 14px;
+  }
+  .top-logos img {
+    height: 50px;
+  }
+  .timeline-item h4 {
+    font-size: 1rem;
+  }
+}
+</style>
+</head>
+<body>
+<!-- === HEADER & NAV === -->
+<nav class="top-logos">
+  <img src="./muj.png" alt="MUJ">
+  <div class="right-logos">
+    <img src="./scopus-logo.webp" alt="Scopus">
+    <img src="./springer.webp" alt="Springer">
+  </div>
+</nav>
+
+<nav class="navbar">
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#About">About</a></li>
+    <li><a href="Call for papers.html">Call for Papers</a></li>
+    <li><a href="Advisory-board.html">Committee</a></li>
+    <li><a href="guidelines.html">For Authors</a></li>
+    <li><a href="index.html#Program">Program</a></li>
+    <li><a href="index.html#Speaker">Speakers</a></li>
+    <li><a href="index.html#Sponsors">Sponsors</a></li>
+    <li><a href="index.html#Venue">Venue</a></li>
+    <li><a href="Proposal Guidelines.html">Proposal Guidelines</a></li>
+    <li><a href="index.html#travel">Travel & Accommodation</a></li>
+  </ul>
+</nav>
+
+<!-- === HERO === -->
+<section class="hero-banner">
+  <h1>Call for Papers</h1>
+  <p>
+    Call for Papers - Submit your original research and be part of the global dialogue on<br>
+    Trusted Networks, Intelligent Systems, and Secure Innovation.
+  </p>
+  <img src="./trust.png" alt="TrustNet Logo" class="top-right-logo">
+</section>
+
+<!-- === SUBMISSION === -->
+<div class="submission-container">
+  <h2>Submission Guidelines</h2>
+  <p>
+    Researchers, academicians, and professionals are invited to submit their research abstracts and full papers for oral and poster presentations. Selected presentations will be appreciated with Cash Awards under “Best Paper Category” and “Outstanding Research Category”.
+  </p>
+
+  <div class="requirements-formats">
+    <div class="card">
+      <h3>Submission Requirements</h3>
+      <ul>
+        <li>Original, unpublished research</li>
+        <li>High-quality academic content</li>
+        <li>Follow conference format guidelines</li>
+        <li>Peer-review process</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Presentation Formats</h3>
+      <ul>
+        <li>Oral presentations</li>
+        <li>Poster presentations</li>
+        <li>Panel discussions</li>
+        <li>Interactive sessions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- === TIMELINE === -->
+<section class="timeline-section">
+  <h2>Submission Timeline</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <span>1</span>
+      <h4>Call for Papers</h4>
+      <p>September 9, 2026</p>
+    </div>
+    <div class="timeline-item">
+      <span>2</span>
+      <h4>Submission</h4>
+      <p>November 15, 2026</p>
+    </div>
+    <div class="timeline-item">
+      <span>3</span>
+      <h4>Acceptance</h4>
+      <p>December 15, 2026</p>
+    </div>
+    <div class="timeline-item">
+      <span>4</span>
+      <h4>Registration End</h4>
+      <p>December 25, 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- === MAIN CONTENT === -->
+<section class="main">
+  <h1><u>Conference Tracks</u></h1>
+  <ul class="tracks">
+    <h2>APPLIED CRYPTOGRAPHY AND NETWORK SECURITY</h2>
+    <li>Information Hiding</li>
+    <li>Intrusion Detection & Prevention</li>
+    <li>Network Security</li>
+    <li>Privacy Enhancing Cryptography</li>
+    <li>Security Protocols</li>
+    <li>Sensor and Mobile Ad Hoc Network Security</li>
+    <li>Wireless Network Security</li>
+    <li>Cryptography and Cryptanalysis</li>
+    <li>Quantum-Safe and Post-Quantum Cryptography</li>
+    <li>Computer Networks and Protocols</li>
+  </ul>
+</section>
+
+<img 
+  src="./trustnet-brochure.webp" 
+  alt="TrustNet 2026 Brochure" 
+  class="trustnet-banner" 
+  loading="lazy">
+
+<section class="main">
+  <div class="content">
+    <h2>Publications</h2>
+    <p>The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.</p>
+  </div>
+  <div class="sponsor">
+    <img src="./scopus-logo.webp" alt="Scopus">
+    <img src="./springer.webp" alt="Springer">
+  </div>
+  <div class="content">
+    <br>
+    <p>The proceedings of TrustNet’26 will be published in Lecture Notes in Networks and Systems (LNNS). LNNS is abstracted and indexed in SCOPUS, INSPEC, WTI Frankfurt eG, zbMATH, SCImago.</p>
+  </div>
+</section>
+</body>
+</html>

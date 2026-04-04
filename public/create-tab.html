@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create New Tab | TrustNet 2026</title>
+
+<style>
+body{
+  font-family: 'Segoe UI', sans-serif;
+  background:#eef1f6;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
+}
+.container{
+  background:#fff;
+  padding:40px;
+  width:400px;
+  border-radius:10px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+h2{margin-bottom:20px;}
+input, textarea{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#007bff;
+  color:#fff;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+button:hover{ background:#0056b3; }
+.back{ margin-top:15px;text-align:center; }
+.back a{ text-decoration:none;color:#007bff; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Create New Tab</h2>
+
+  <input type="text" id="tabName" placeholder="Tab Title">
+  <textarea rows="4" id="tabContent" placeholder="Tab Description"></textarea>
+  <input type="file" id="tabImage">
+
+  <button onclick="createTab()">Create Tab</button>
+
+  <div class="back">
+    <a href="index.html">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+const BASE = "http://localhost:3000/api";
+
+async function createTab(){
+
+  const tabName = document.getElementById("tabName").value;
+  const content = document.getElementById("tabContent").value;
+  const image = document.getElementById("tabImage").files[0];
+
+  if(!tabName || !content){
+    alert("Fill all fields");
+    return;
+  }
+
+  const fd = new FormData();
+  fd.append("tabName", tabName);
+  fd.append("headline", tabName);
+  fd.append("content", content);
+  if(image) fd.append("image", image);
+
+  try {
+    const res = await fetch(`${BASE}/tabs`,{
+      method:"POST",
+      body:fd
+    });
+
+    const data = await res.json();
+
+    if(data.slug){
+      window.location.href = `/page/${data.slug}`;
+    } else {
+      alert("Error creating page");
+    }
+
+  } catch(err){
+    alert("Server error");
+  }
+}
+</script>
+
+</body>
+</html>

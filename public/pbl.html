@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEMPLATE CREATION index.html</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* Your original CSS here (same as before) */
+    /* ... keep all styles unchanged ... */
+  </style>
+</head>
+<body>
+  <!-- Top Logos -->
+  <nav class="top-logos">
+    <img src="./muj.png" alt="MUJ">
+    <div class="right-logos">
+      <img src="./scopus-logo.webp" alt="Scopus">
+      <img src="./springer.webp" alt="Springer">
+    </div>
+  </nav>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#About">About</a></li>
+      <li><a href="Call for papers.html">Call for Papers</a></li>
+      <li><a href="Advisory-board.html">Committee</a></li>
+      <li><a href="guidelines.html">For Authors</a></li>
+      <li><a href="index.html#Program">Program</a></li>
+      <li><a href="index.html#Speaker">Speakers</a></li>
+      <li><a href="index.html#Sponsors">Sponsors</a></li>
+      <li><a href="index.html#Venue">Venue</a></li>
+      <li><a href="Proposal Guidelines.html">Proposal Guidelines</a></li>
+      <li><a href="index.html#travel">Travel & Accommodation</a></li>
+      <li class="apply-wrapper">
+        <a href="https://admissions.jaipur.manipal.edu/" class="apply-button">APPLY NOW</a>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="admin.html">Admin</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <img src="./trust.png" alt="TrustNet Logo" class="top-right-logo">
+    <div class="content">
+      <h1>TRUSTNET'26 <br> International Conference On <br> Trusted Networks and Intelligent Systems 2025</h1>
+      <p><i class="fas fa-map-marker-alt"></i> Manipal University Jaipur</p>
+      <p><i class="fas fa-calendar-alt"></i> 16–17, Feb 2026</p>
+      <a href="registerhere.html" class="register-button">REGISTER HERE</a>
+      <a href="https://cmt3.research.microsoft.com/TrustNet2026" class="submit-button">SUBMIT PAPER</a>
+    </div>
+  </section>
+
+  <!-- Important Dates -->
+  <div class="date-box"></div>
+
+  <!-- Main Content -->
+  <section class="main">
+    <div class="content">
+      <h2 id="Home">International Conference On Trusted Networks and Intelligent Systems 2025</h2>
+      <p>The Department of Computer Science and Engineering, Manipal University Jaipur, is pleased to announce the International Conference on Trusted Networks and Intelligent Systems (TrustNet 2026) on February 16–17, 2026. This conference is centered around a shared global goal: creating a safe, smart, and sustainable digital future.</p>
+
+      <h2 id="About">About The Conference</h2>
+      <p>Established in 2011, Manipal University Jaipur (MUJ) is a proud member of the globally acclaimed Manipal Group. With NAAC A+ accreditation, MUJ stands as a multi-disciplinary, future-focused university.</p>
+
+      <h2 id="Program">Conference Tracks</h2>
+      <ul class="tracks">
+        <li>APPLIED CRYPTOGRAPHY AND NETWORK SECURITY</li>
+        <li>DISTRIBUTED SYSTEMS AND ARCHITECTURES</li>
+        <li>DATA SECURITY AND PRIVACY</li>
+        <li>SECURITY AND AI/MACHINE LEARNING</li>
+        <li>SECURITY AND PRIVACY IN EMERGING SCENARIOS</li>
+        <li>RISKS, POLICIES AND SOFTWARE SECURITY</li>
+        <li>TRUST MANAGEMENT AND USABILITY</li>
+      </ul>
+    </div>
+
+    <h2 id="Speaker">Our Eminent Speakers</h2>
+    <div class="speakers-container"></div>
+
+    <h2 id="Sponsors">Publications</h2>
+    <div class="sponsor" id="publisherLogos"></div>
+
+    <h2>Conference Partners</h2>
+    <div class="sponsor" id="partnerLogos"></div>
+
+    <h2 id="travel">About Jaipur</h2>
+    <p>Jaipur, famously known as the Pink City, is the vibrant capital of Rajasthan and a remarkable testament to Indian architecture and culture.</p>
+
+    <div class="scrolling-wrapper">
+      <div class="scrolling-images">
+        <img src="./hawa-mahal.webp" alt="Hawa Mahal">
+        <img src="./amber-fort.webp" alt="Amber Fort">
+        <img src="./bapu-bazaar.webp" alt="Jaipur Market">
+        <img src="./jantar-mantar.webp" alt="Jantar Mantar">
+      </div>
+    </div>
+
+    <h2 id="Venue">Venue</h2>
+    <p>Manipal University Jaipur, Dehmi-Kalan, Near GVK Toll Plaza, Jaipur-Ajmer Express Highway, Jaipur, Rajasthan 303007</p>
+  </section>
+
+  <script>
+    const sidebarBtn = document.querySelector(".sidebar-toggle");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 150) {
+        sidebarBtn.style.opacity = "0";
+        sidebarBtn.style.pointerEvents = "none";
+      } else {
+        sidebarBtn.style.opacity = "1";
+        sidebarBtn.style.pointerEvents = "auto";
+      }
+    });
+
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+      document.body.classList.toggle("sidebar-open");
+    }
+
+    // ==================== FETCH DATA FROM EXPRESS ====================
+    const BASE = "http://localhost:3000/api";
+
+    async function loadDates() {
+      const res = await fetch(BASE + "/dates");
+      const data = await res.json();
+      const box = document.querySelector(".date-box");
+      box.innerHTML = "";
+      data.forEach(d => {
+        box.innerHTML += `<div class="event-box"><h2>${d.event}</h2><span>${d.date}</span></div>`;
+      });
+    }
+
+    async function loadSpeakers() {
+      const res = await fetch(BASE + "/speakers");
+      const data = await res.json();
+      const sp = document.querySelector(".speakers-container");
+      sp.innerHTML = "";
+      data.forEach(s => {
+        sp.innerHTML += `
+          <div>
+            <img src="${s.image}">
+            <p><b>${s.name}</b><br>${s.affiliation}</p>
+          </div>`;
+      });
+    }
+
+    async function loadPublishers() {
+      const res = await fetch(BASE + "/publishers");
+      const data = await res.json();
+      const p = document.getElementById("publisherLogos");
+      p.innerHTML = "";
+      data.forEach(s => {
+        p.innerHTML += `<img src="${s.logo}">`;
+      });
+    }
+
+    async function loadPartners() {
+      const res = await fetch(BASE + "/partners");
+      const data = await res.json();
+      const p = document.getElementById("partnerLogos");
+      p.innerHTML = "";
+      data.forEach(s => {
+        p.innerHTML += `<img src="${s.logo}">`;
+      });
+    }
+
+    window.onload = function () {
+      loadDates();
+      loadSpeakers();
+      loadPublishers();
+      loadPartners();
+    }
+  </script>
+</body>
+</html>

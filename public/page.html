@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Page</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="dynamic-content">
+  <h1 id="headline"></h1>
+  <p id="content"></p>
+  <img id="image" style="display:none;">
+</div>
+
+<script>
+const slug = window.location.pathname.split("/").pop();
+
+fetch(`/api/tabs/slug/${slug}`)
+.then(res => res.json())
+.then(data => {
+
+  if(!data || data.error){
+    document.querySelector(".dynamic-content").innerHTML =
+      "<h2 style='text-align:center;'>Page Not Found</h2>";
+    return;
+  }
+
+  document.getElementById("headline").innerText = data.headline;
+  document.getElementById("content").innerText = data.content;
+
+  // show image only once
+  if(data.image){
+    const img = document.getElementById("image");
+    img.src = data.image;
+    img.style.display = "block";
+  }
+
+})
+.catch(() => {
+  document.querySelector(".dynamic-content").innerHTML =
+    "<h2 style='text-align:center;'>Error Loading Page</h2>";
+});
+</script>
+
+</body>
+</html>
