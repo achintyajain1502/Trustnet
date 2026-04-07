@@ -62,7 +62,7 @@ button:hover{ background:#0056b3; }
 </div>
 
 <script>
-const BASE = "http://localhost:3000/api";
+const BASE = `${window.location.origin}/api`;
 
 async function createTab(){
 
@@ -98,6 +98,7 @@ async function createTab(){
   } catch(err){
     alert("Server error");
   }
+}
 }
 </script>
 
