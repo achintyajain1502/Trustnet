@@ -328,7 +328,7 @@ backToTop.addEventListener("click", () =>
 );
 
 // ================= API BASE =================
-const BASE = "http://localhost:3000/api";
+const BASE = "https://trustnet-lime.vercel.app/api";
 
 // ================= LOAD IMPORTANT DATES =================
 async function loadDates() {
@@ -426,7 +426,7 @@ async function loadPartners() {
 // ================= LOAD NAVIGATION TABS AS LINKS =================
 async function loadDynamicNav() {
   try {
-    const res = await fetch("http://localhost:3000/api/tabs");
+    const res = await fetch("https://trustnet-lime.vercel.app/api/tabs");
     const data = await res.json();
 
     console.log("Tabs:", data);
