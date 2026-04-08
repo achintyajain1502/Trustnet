@@ -1,5 +1,22 @@
-[00:03, 09/04/2026] Achintya Jain: it didt worked
-[00:10, 09/04/2026] Prasoon...IT Head B: <!DOCTYPE html>
+Jack
+jamiejack_15
+Invisible
+
+Jack — 00:17
+hey
+Prasoon — 00:17
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TRUSTNET 2026 – Admin Dashboard</title>
+
+message.txt
+6 KB
+﻿
+Prasoon
+prasoon411.
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -92,7 +109,7 @@ function logout(){
 }
 
 // BASE URL
-const BASE = ${window.location.origin}/api;
+const BASE = `${window.location.origin}/api`;
 
 // API HELPER
 async function apiFetch(endpoint, method="GET", body=null){
@@ -105,10 +122,10 @@ async function apiFetch(endpoint, method="GET", body=null){
     options.body = body;
   }
 
-  const res = await fetch(${BASE}/${endpoint}, options);
+  const res = await fetch(`${BASE}/${endpoint}`, options);
 
   if(!res.ok){
-    throw new Error(API error: ${res.status});
+    throw new Error(`API error: ${res.status}`);
   }
 
   return res.json();
@@ -159,7 +176,7 @@ async function addDate(){
 }
 
 async function deleteDate(id){
-  await apiFetch(dates/${id},"DELETE");
+  await apiFetch(`dates/${id}`,"DELETE");
   loadDates();
 }
 
@@ -211,7 +228,7 @@ async function addSpeaker(){
 }
 
 async function deleteSpeaker(id){
-  await apiFetch(speakers/${id},"DELETE");
+  await apiFetch(`speakers/${id}`,"DELETE");
   loadSpeakers();
 }
 
