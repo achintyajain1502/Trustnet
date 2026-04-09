@@ -2,17 +2,24 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const multer = require("multer");
+const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
 const app = express();
 const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/trustnet";
 let mongoConnectionPromise;
+const uploadDir = process.env.VERCEL
+  ? path.join(os.tmpdir(), "trustnet-uploads")
+  : path.join(__dirname, "uploads");
+
+fs.mkdirSync(uploadDir, { recursive: true });
 
 // ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(uploadDir));
 
 // ❗ IMPORTANT: DO NOT put static first
 // app.use(express.static("public")); ❌ (moved below)
@@ -36,7 +43,7 @@ connectToMongo().catch(() => {});
 
 // ===== MULTER =====
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: uploadDir,
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
