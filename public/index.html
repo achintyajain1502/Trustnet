@@ -328,7 +328,7 @@ backToTop.addEventListener("click", () =>
 );
 
 // ================= API BASE =================
-const BASE = "https://trustnet-lime.vercel.app/api";
+const BASE = "/api";
 
 // ================= LOAD IMPORTANT DATES =================
 async function loadDates() {
@@ -424,41 +424,75 @@ async function loadPartners() {
 }
 
 // ================= LOAD NAVIGATION TABS AS LINKS =================
+/*
 async function loadDynamicNav() {
   try {
-    const res = await fetch("https://trustnet-lime.vercel.app/api/tabs");
+    const res = await fetch(`${BASE}/tabs`);
     const data = await res.json();
-
-    console.log("Tabs:", data);
 
     const navLinks = document.getElementById("navLinks");
     const applyWrapper = document.querySelector(".apply-wrapper");
 
-    if (!data || data.length === 0) return;
-
     data.forEach(tab => {
       const li = document.createElement("li");
       li.innerHTML = `<a href="/page/${tab.slug}">${tab.tabName}</a>`;
-
-      // Insert BEFORE Apply button
       navLinks.insertBefore(li, applyWrapper);
     });
 
   } catch (err) {
-    console.error("Nav Load Error:", err);
+    console.error(err);
   }
-}  
-// ================= LOAD ALL =================
-async function loadAll() {
-  await loadDates();
-  await loadSpeakers();
-  await loadCommittee();
-  await loadPublishers();
-  await loadPartners();
-  await loadDynamicNav();
+}*/
+
+async function loadDynamicNav() {
+  try {
+    const res = await fetch(`${BASE}/tabs`);
+    const data = await res.json();
+
+    const navLinks = document.getElementById("navLinks");
+    const applyWrapper = document.querySelector(".apply-wrapper");
+
+    document.querySelectorAll(".dynamic-tab").forEach(e => e.remove());
+
+    data.forEach(tab => {
+      if (!tab.slug) return;
+
+      const li = document.createElement("li");
+      li.classList.add("dynamic-tab");
+
+      // ✅ OPEN IN NEW TAB
+      li.innerHTML = `
+        <a href="/page/${tab.slug}" target="_blank">
+          ${tab.tabName}
+        </a>
+      `;
+
+      navLinks.insertBefore(li, applyWrapper);
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-// Run once when page loads
+
+
+// ================= LOAD ALL =================
+async function loadAll() {
+  try {
+    console.log("Loading...");
+    await loadDates();
+    await loadSpeakers();
+    await loadCommittee();
+    await loadPublishers();
+    await loadPartners();
+    await loadDynamicNav();
+    console.log("Loaded ✅");
+  } catch (err) {
+    console.error("ERROR ❌", err);
+  }
+}
+
 window.addEventListener("DOMContentLoaded", loadAll);
 
 //=============SideBar Menu Close Properly============
