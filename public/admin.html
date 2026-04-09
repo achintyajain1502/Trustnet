@@ -119,6 +119,7 @@ input{width:100%;padding:12px;margin-bottom:12px;border-radius:10px;border:1px s
 <script>
 function showToast(msg, success=true){
   const toast = document.getElementById("toast");
+  if(!toast) return;
   toast.innerText = msg;
   toast.style.background = success ? "#16a34a" : "#dc2626";
   toast.style.display = "block";
@@ -133,15 +134,11 @@ function showToast(msg, success=true){
 // IMAGE PREVIEW
 function previewImage(input, previewId){
   const file = input.files[0];
-  if(file){
-    document.getElementById(previewId).src = URL.createObjectURL(file);
+  const preview = document.getElementById(previewId);
+  if(file && preview){
+    preview.src = URL.createObjectURL(file);
   }
 }
-
-spImg.onchange = ()=> previewImage(spImg,"spPreview");
-cmImg.onchange = ()=> previewImage(cmImg,"cmPreview");
-pubLogo.onchange = ()=> previewImage(pubLogo,"pubPreview");
-partnerLogo.onchange = ()=> previewImage(partnerLogo,"partnerPreview");
 let editMode = { type: null, id: null };
 
 // LOGIN
@@ -160,7 +157,10 @@ async function apiFetch(endpoint, method="GET", body=null){
     options.body = body;
   }
 
-  const res = await fetch(`${BASE}/${endpoint}`);
+  const res = await fetch(`${BASE}/${endpoint}`, options);
+  if(!res.ok){
+    throw new Error(`Request failed: ${res.status}`);
+  }
   return res.json();
 }
 
@@ -546,6 +546,16 @@ async function deleteTab(id){
 
 
 // LOAD ALL
+const speakerImageInput = document.getElementById("spImg");
+const committeeImageInput = document.getElementById("cmImg");
+const publisherLogoInput = document.getElementById("pubLogo");
+const partnerLogoInput = document.getElementById("partnerLogo");
+
+if (speakerImageInput) speakerImageInput.onchange = ()=> previewImage(speakerImageInput,"spPreview");
+if (committeeImageInput) committeeImageInput.onchange = ()=> previewImage(committeeImageInput,"cmPreview");
+if (publisherLogoInput) publisherLogoInput.onchange = ()=> previewImage(publisherLogoInput,"pubPreview");
+if (partnerLogoInput) partnerLogoInput.onchange = ()=> previewImage(partnerLogoInput,"partnerPreview");
+
 loadDates();
 loadSpeakers();
 loadCommittee();
