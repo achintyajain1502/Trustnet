@@ -1,8 +1,14 @@
 {
   "version": 2,
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" }
+  ],
   "routes": [
-    { "src": "/", "dest": "/pbl.html" },
-    { "src": "/index", "dest": "/pbl.html" },
+    { "src": "/api/(.*)", "dest": "/server.js" },
+    { "src": "/page/(.*)", "dest": "/server.js" },
+    { "src": "/uploads/(.*)", "dest": "/server.js" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/index", "dest": "/index.html" },
     { "src": "/guidelines", "dest": "/guidelines.html" },
     { "src": "/registerhere", "dest": "/registerhere.html" },
     { "src": "/advisory", "dest": "/Advisory-board.html" },

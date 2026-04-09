@@ -5,19 +5,34 @@ const multer = require("multer");
 const path = require("path");
 
 const app = express();
+const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/trustnet";
+let mongoConnectionPromise;
 
 // ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 
 // ❗ IMPORTANT: DO NOT put static first
 // app.use(express.static("public")); ❌ (moved below)
 
 // ===== MONGODB =====
-mongoose.connect("mongodb://127.0.0.1:27017/trustnet")
-  .then(() => console.log("MongoDB Connected ✅"))
-  .catch(err => console.log("Mongo Error ❌", err));
+function connectToMongo() {
+  if (!mongoConnectionPromise) {
+    mongoConnectionPromise = mongoose.connect(mongoUri)
+      .then(() => console.log("MongoDB Connected ✅"))
+      .catch(err => {
+        console.log("Mongo Error ❌", err);
+        mongoConnectionPromise = null;
+        throw err;
+      });
+  }
+
+  return mongoConnectionPromise;
+}
+
+connectToMongo().catch(() => {});
 
 // ===== MULTER =====
 const storage = multer.diskStorage({
@@ -198,7 +213,7 @@ app.post("/api/speakers", upload.single("image"), async (req, res) => {
   res.json(await Speaker.create({
     name: req.body.name,
     affiliation: req.body.affiliation,
-    image: `/uploads/${req.file.filename}`,
+    image: req.file ? `/uploads/${req.file.filename}` : "",
   }));
 });
 
@@ -207,7 +222,7 @@ app.post("/api/committee", upload.single("image"), async (req, res) => {
   res.json(await Committee.create({
     name: req.body.name,
     designation: req.body.designation,
-    image: `/uploads/${req.file.filename}`,
+    image: req.file ? `/uploads/${req.file.filename}` : "",
   }));
 });
 
@@ -215,7 +230,7 @@ app.get("/api/publishers", async (req, res) => res.json(await Publisher.find()))
 app.post("/api/publishers", upload.single("logo"), async (req, res) => {
   res.json(await Publisher.create({
     name: req.body.name,
-    logo: `/uploads/${req.file.filename}`,
+    logo: req.file ? `/uploads/${req.file.filename}` : "",
   }));
 });
 
@@ -223,7 +238,7 @@ app.get("/api/partners", async (req, res) => res.json(await Partner.find()));
 app.post("/api/partners", upload.single("logo"), async (req, res) => {
   res.json(await Partner.create({
     name: req.body.name,
-    logo: `/uploads/${req.file.filename}`,
+    logo: req.file ? `/uploads/${req.file.filename}` : "",
   }));
 });
 
@@ -319,4 +334,9 @@ app.get("/", (req, res) => {
 });
 
 // ===== SERVER =====
-app.listen(3000, () => console.log("🚀 Server running on http://localhost:3000"));
+if (require.main === module) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`🚀 Server running on http://localhost:${port}`));
+}
+
+module.exports = app;
