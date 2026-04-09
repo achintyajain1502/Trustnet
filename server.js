@@ -9,16 +9,19 @@ const path = require("path");
 const app = express();
 const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/trustnet";
 let mongoConnectionPromise;
+const bundledUploadsDir = path.join(__dirname, "uploads");
 const uploadDir = process.env.VERCEL
   ? path.join(os.tmpdir(), "trustnet-uploads")
-  : path.join(__dirname, "uploads");
+  : bundledUploadsDir;
 
 fs.mkdirSync(uploadDir, { recursive: true });
+fs.mkdirSync(bundledUploadsDir, { recursive: true });
 
 // ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static(bundledUploadsDir));
 app.use("/uploads", express.static(uploadDir));
 
 // ❗ IMPORTANT: DO NOT put static first
