@@ -18,15 +18,22 @@ const uploadDir = process.env.VERCEL
   ? path.join(os.tmpdir(), "trustnet-uploads")
   : bundledUploadsDir;
 const useBlobStorage = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+const isVercel = Boolean(process.env.VERCEL);
 
-fs.mkdirSync(uploadDir, { recursive: true });
-fs.mkdirSync(bundledUploadsDir, { recursive: true });
+if (!isVercel) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+  fs.mkdirSync(bundledUploadsDir, { recursive: true });
+} else {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(bundledUploadsDir));
+if (!isVercel) {
+  app.use("/uploads", express.static(bundledUploadsDir));
+}
 app.use("/uploads", express.static(uploadDir));
 
 // ❗ IMPORTANT: DO NOT put static first
