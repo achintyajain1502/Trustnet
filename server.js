@@ -8,6 +8,7 @@ const path = require("path");
 const { put } = require("@vercel/blob");
 
 const app = express();
+const publicDir = path.join(__dirname, "public");
 const mongoUri =
   process.env.MONGODB_URI ||
   process.env.MONGO_URI ||
@@ -419,11 +420,11 @@ app.delete("/api/partners/:id", requireMongo, async (req,res)=>{
 });
 
 // ✅ STATIC AFTER ROUTES
-app.use(express.static("public"));
+app.use(express.static(publicDir));
 
 // ===== DEFAULT =====
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(publicDir, "index.html"));
 });
 
 // ===== SERVER =====
