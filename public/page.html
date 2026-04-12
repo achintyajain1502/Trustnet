@@ -20,7 +20,7 @@
 <script>
 const slug = window.location.pathname.split("/").pop();
 
-fetch(`/api/tabs/slug/${slug}`)
+fetch(`/api/page/${slug}`)
 .then(res => res.json())
 .then(data => {
 

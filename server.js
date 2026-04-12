@@ -5,14 +5,19 @@ const multer = require("multer");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { put } = require("@vercel/blob");
 
 const app = express();
-const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/trustnet";
+const mongoUri =
+  process.env.MONGODB_URI ||
+  process.env.MONGO_URI ||
+  "mongodb://127.0.0.1:27017/trustnet";
 let mongoConnectionPromise;
 const bundledUploadsDir = path.join(__dirname, "uploads");
 const uploadDir = process.env.VERCEL
   ? path.join(os.tmpdir(), "trustnet-uploads")
   : bundledUploadsDir;
+const useBlobStorage = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
 fs.mkdirSync(uploadDir, { recursive: true });
 fs.mkdirSync(bundledUploadsDir, { recursive: true });
@@ -44,18 +49,55 @@ function connectToMongo() {
 
 connectToMongo().catch(() => {});
 
+async function requireMongo(req, res, next) {
+  try {
+    await connectToMongo();
+    next();
+  } catch (err) {
+    res.status(500).json({ error: "Database connection failed" });
+  }
+}
+
 // ===== MULTER =====
-const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+const storage = useBlobStorage
+  ? multer.memoryStorage()
+  : multer.diskStorage({
+      destination: uploadDir,
+      filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+      },
+    });
 const upload = multer({ storage });
 
 // ===== HELPER =====
 function generateSlug(text) {
   return text.toLowerCase().replace(/\s+/g, "-");
+}
+
+async function resolveUploadedFile(file) {
+  if (!file) {
+    return "";
+  }
+
+  if (process.env.VERCEL && !useBlobStorage) {
+    throw new Error("File uploads require BLOB_READ_WRITE_TOKEN on Vercel");
+  }
+
+  if (useBlobStorage) {
+    const blob = await put(
+      `trustnet/${Date.now()}-${file.originalname}`,
+      file.buffer,
+      {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+        addRandomSuffix: true,
+      }
+    );
+
+    return blob.url;
+  }
+
+  return `/uploads/${file.filename}`;
 }
 
 // ===== SCHEMAS =====
@@ -77,7 +119,7 @@ const Partner = mongoose.model("Partner", new mongoose.Schema({ name: String, lo
 // ===== ROUTES =====
 
 // ✅ VERY IMPORTANT: PAGE ROUTE FIRST
-app.get("/page/:slug", async (req, res) => {
+app.get("/page/:slug", requireMongo, async (req, res) => {
   try {
     const page = await Tab.findOne({ slug: req.params.slug });
 
@@ -183,92 +225,126 @@ body{
 });
 
 // ===== API =====
-app.get("/api/page/:slug", async (req, res) => {
+app.get("/api/page/:slug", requireMongo, async (req, res) => {
   const page = await Tab.findOne({ slug: req.params.slug });
   if (!page) return res.status(404).json({ error: "Not found" });
   res.json(page);
 });
 
-app.get("/api/tabs", async (req, res) => res.json(await Tab.find()));
+app.get("/api/health", requireMongo, async (req, res) => {
+  res.json({
+    ok: true,
+    mongoReadyState: mongoose.connection.readyState,
+    storage: useBlobStorage ? "vercel-blob" : "local-disk",
+  });
+});
 
-app.post("/api/tabs", upload.single("image"), async (req, res) => {
+app.get("/api/tabs", requireMongo, async (req, res) => res.json(await Tab.find()));
+
+app.post("/api/tabs", requireMongo, upload.single("image"), async (req, res) => {
   const slug = generateSlug(req.body.tabName || "page");
+  const image = await resolveUploadedFile(req.file);
 
   const newTab = await Tab.create({
     tabName: req.body.tabName,
     headline: req.body.headline,
     content: req.body.content,
     slug: slug,
-    image: req.file ? `/uploads/${req.file.filename}` : "",
+    image,
   });
 
   res.json(newTab);
 });
 
-app.delete("/api/tabs/:id", async (req, res) => {
+app.put("/api/tabs/:id", requireMongo, upload.single("image"), async (req, res) => {
+  const existingTab = await Tab.findById(req.params.id);
+  if (!existingTab) {
+    return res.status(404).json({ error: "Not found" });
+  }
+
+  const updatedTab = await Tab.findByIdAndUpdate(
+    req.params.id,
+    {
+      tabName: req.body.tabName,
+      headline: req.body.headline,
+      content: req.body.content,
+      slug: generateSlug(req.body.tabName || existingTab.tabName || "page"),
+      image: req.file ? await resolveUploadedFile(req.file) : existingTab.image,
+    },
+    { new: true }
+  );
+
+  res.json(updatedTab);
+});
+
+app.delete("/api/tabs/:id", requireMongo, async (req, res) => {
   await Tab.findByIdAndDelete(req.params.id);
   res.json({ success: true });
 });
 
 // ===== OTHER APIs =====
-app.get("/api/dates", async (req, res) => res.json(await DateModel.find()));
-app.post("/api/dates", async (req, res) => res.json(await DateModel.create(req.body)));
-app.delete("/api/dates/:id", async (req, res) => {
+app.get("/api/dates", requireMongo, async (req, res) => res.json(await DateModel.find()));
+app.post("/api/dates", requireMongo, async (req, res) => res.json(await DateModel.create(req.body)));
+app.delete("/api/dates/:id", requireMongo, async (req, res) => {
   await DateModel.findByIdAndDelete(req.params.id);
   res.json({ success: true });
 });
 
-app.get("/api/speakers", async (req, res) => res.json(await Speaker.find()));
-app.post("/api/speakers", upload.single("image"), async (req, res) => {
+app.get("/api/speakers", requireMongo, async (req, res) => res.json(await Speaker.find()));
+app.post("/api/speakers", requireMongo, upload.single("image"), async (req, res) => {
+  const image = await resolveUploadedFile(req.file);
   res.json(await Speaker.create({
     name: req.body.name,
     affiliation: req.body.affiliation,
-    image: req.file ? `/uploads/${req.file.filename}` : "",
+    image,
   }));
 });
 
-app.get("/api/committee", async (req, res) => res.json(await Committee.find()));
-app.post("/api/committee", upload.single("image"), async (req, res) => {
+app.get("/api/committee", requireMongo, async (req, res) => res.json(await Committee.find()));
+app.post("/api/committee", requireMongo, upload.single("image"), async (req, res) => {
+  const image = await resolveUploadedFile(req.file);
   res.json(await Committee.create({
     name: req.body.name,
     designation: req.body.designation,
-    image: req.file ? `/uploads/${req.file.filename}` : "",
+    image,
   }));
 });
 
-app.get("/api/publishers", async (req, res) => res.json(await Publisher.find()));
-app.post("/api/publishers", upload.single("logo"), async (req, res) => {
+app.get("/api/publishers", requireMongo, async (req, res) => res.json(await Publisher.find()));
+app.post("/api/publishers", requireMongo, upload.single("logo"), async (req, res) => {
+  const logo = await resolveUploadedFile(req.file);
   res.json(await Publisher.create({
     name: req.body.name,
-    logo: req.file ? `/uploads/${req.file.filename}` : "",
+    logo,
   }));
 });
 
-app.get("/api/partners", async (req, res) => res.json(await Partner.find()));
-app.post("/api/partners", upload.single("logo"), async (req, res) => {
+app.get("/api/partners", requireMongo, async (req, res) => res.json(await Partner.find()));
+app.post("/api/partners", requireMongo, upload.single("logo"), async (req, res) => {
+  const logo = await resolveUploadedFile(req.file);
   res.json(await Partner.create({
     name: req.body.name,
-    logo: req.file ? `/uploads/${req.file.filename}` : "",
+    logo,
   }));
 });
 
 // ===== UPDATE APIs =====
 
 // DATES
-app.put("/api/dates/:id", async (req, res) => {
+app.put("/api/dates/:id", requireMongo, async (req, res) => {
   const updated = await DateModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(updated);
 });
 
 // SPEAKERS
-app.put("/api/speakers/:id", upload.single("image"), async (req, res) => {
+app.put("/api/speakers/:id", requireMongo, upload.single("image"), async (req, res) => {
   const updateData = {
     name: req.body.name,
     affiliation: req.body.affiliation
   };
 
   if (req.file) {
-    updateData.image = `/uploads/${req.file.filename}`;
+    updateData.image = await resolveUploadedFile(req.file);
   }
 
   const updated = await Speaker.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -276,14 +352,14 @@ app.put("/api/speakers/:id", upload.single("image"), async (req, res) => {
 });
 
 // COMMITTEE
-app.put("/api/committee/:id", upload.single("image"), async (req, res) => {
+app.put("/api/committee/:id", requireMongo, upload.single("image"), async (req, res) => {
   const updateData = {
     name: req.body.name,
     designation: req.body.designation
   };
 
   if (req.file) {
-    updateData.image = `/uploads/${req.file.filename}`;
+    updateData.image = await resolveUploadedFile(req.file);
   }
 
   const updated = await Committee.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -291,11 +367,11 @@ app.put("/api/committee/:id", upload.single("image"), async (req, res) => {
 });
 
 // PUBLISHERS
-app.put("/api/publishers/:id", upload.single("logo"), async (req, res) => {
+app.put("/api/publishers/:id", requireMongo, upload.single("logo"), async (req, res) => {
   const updateData = { name: req.body.name };
 
   if (req.file) {
-    updateData.logo = `/uploads/${req.file.filename}`;
+    updateData.logo = await resolveUploadedFile(req.file);
   }
 
   const updated = await Publisher.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -303,11 +379,11 @@ app.put("/api/publishers/:id", upload.single("logo"), async (req, res) => {
 });
 
 // PARTNERS
-app.put("/api/partners/:id", upload.single("logo"), async (req, res) => {
+app.put("/api/partners/:id", requireMongo, upload.single("logo"), async (req, res) => {
   const updateData = { name: req.body.name };
 
   if (req.file) {
-    updateData.logo = `/uploads/${req.file.filename}`;
+    updateData.logo = await resolveUploadedFile(req.file);
   }
 
   const updated = await Partner.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -315,22 +391,22 @@ app.put("/api/partners/:id", upload.single("logo"), async (req, res) => {
 });
 
 //=======DELETE APIS=========
-app.delete("/api/speakers/:id", async (req,res)=>{
+app.delete("/api/speakers/:id", requireMongo, async (req,res)=>{
   await Speaker.findByIdAndDelete(req.params.id);
   res.json({success:true});
 });
 
-app.delete("/api/committee/:id", async (req,res)=>{
+app.delete("/api/committee/:id", requireMongo, async (req,res)=>{
   await Committee.findByIdAndDelete(req.params.id);
   res.json({success:true});
 });
 
-app.delete("/api/publishers/:id", async (req,res)=>{
+app.delete("/api/publishers/:id", requireMongo, async (req,res)=>{
   await Publisher.findByIdAndDelete(req.params.id);
   res.json({success:true});
 });
 
-app.delete("/api/partners/:id", async (req,res)=>{
+app.delete("/api/partners/:id", requireMongo, async (req,res)=>{
   await Partner.findByIdAndDelete(req.params.id);
   res.json({success:true});
 });
@@ -348,5 +424,15 @@ if (require.main === module) {
   const port = process.env.PORT || 3000;
   app.listen(port, () => console.log(`🚀 Server running on http://localhost:${port}`));
 }
+
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ error: err.message });
+  }
+
+  res.status(500).json({ error: err.message || "Internal server error" });
+});
 
 module.exports = app;
