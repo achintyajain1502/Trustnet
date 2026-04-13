@@ -164,7 +164,7 @@ ul.tracks{list-style:disc;margin-left:40px;font-size:1rem}
 <!-- Top Logos -->
 <nav class="top-logos">
   <img src="./muj-3.jpeg" alt="MUJ">
-  <div class="right-logos">
+  <div class="right-logos" id="topRightLogos">
     <img src="./scopus-logo.webp" alt="Scopus">
     <img src="./springer.webp" alt="Springer">
   </div>
@@ -423,6 +423,28 @@ async function loadPartners() {
   } catch(e){ console.error(e); }
 }
 
+async function loadTopRightLogos() {
+  const container = document.getElementById("topRightLogos");
+  const fallbackLogos = [
+    { image: "./scopus-logo.webp", name: "Scopus" },
+    { image: "./springer.webp", name: "Springer" },
+  ];
+
+  try {
+    const res = await fetch(`${BASE}/top-right-logos`);
+    const logos = await res.json();
+    const items = logos.length ? logos : fallbackLogos;
+
+    container.innerHTML = "";
+    items.forEach((logo, index) => {
+      const img = document.createElement("img");
+      img.src = logo.image;
+      img.alt = logo.name || `Top Right Logo ${index + 1}`;
+      container.appendChild(img);
+    });
+  } catch(e){ console.error(e); }
+}
+
 // ================= LOAD NAVIGATION TABS AS LINKS =================
 /*
 async function loadDynamicNav() {
@@ -486,6 +508,7 @@ async function loadAll() {
     await loadCommittee();
     await loadPublishers();
     await loadPartners();
+    await loadTopRightLogos();
     await loadDynamicNav();
     console.log("Loaded ✅");
   } catch (err) {

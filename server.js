@@ -123,6 +123,10 @@ const Speaker = mongoose.model("Speaker", new mongoose.Schema({ name: String, af
 const Committee = mongoose.model("Committee", new mongoose.Schema({ name: String, designation: String, image: String }));
 const Publisher = mongoose.model("Publisher", new mongoose.Schema({ name: String, logo: String }));
 const Partner = mongoose.model("Partner", new mongoose.Schema({ name: String, logo: String }));
+const TopRightLogo = mongoose.model("TopRightLogo", new mongoose.Schema({
+  image: String,
+  position: Number,
+}));
 
 // ===== ROUTES =====
 
@@ -239,6 +243,10 @@ app.get("/api/page/:slug", requireMongo, async (req, res) => {
   res.json(page);
 });
 
+app.get("/api/top-right-logos", requireMongo, async (req, res) => {
+  res.json(await TopRightLogo.find().sort({ position: 1, _id: 1 }));
+});
+
 app.get("/api/health", requireMongo, async (req, res) => {
   res.json({
     ok: true,
@@ -336,6 +344,33 @@ app.post("/api/partners", requireMongo, upload.single("logo"), async (req, res) 
   }));
 });
 
+app.post("/api/top-right-logos", requireMongo, upload.single("image"), async (req, res) => {
+  const image = await resolveUploadedFile(req.file);
+  const requestedPosition = Number(req.body.position);
+  const lastLogo = await TopRightLogo.findOne().sort({ position: -1, _id: -1 });
+  const position = Number.isFinite(requestedPosition) && requestedPosition > 0
+    ? requestedPosition
+    : (lastLogo?.position || 0) + 1;
+
+  res.json(await TopRightLogo.create({ image, position }));
+});
+
+app.put("/api/top-right-logos/:id", requireMongo, upload.single("image"), async (req, res) => {
+  const updateData = {};
+  const requestedPosition = Number(req.body.position);
+
+  if (Number.isFinite(requestedPosition) && requestedPosition > 0) {
+    updateData.position = requestedPosition;
+  }
+
+  if (req.file) {
+    updateData.image = await resolveUploadedFile(req.file);
+  }
+
+  const updated = await TopRightLogo.findByIdAndUpdate(req.params.id, updateData, { new: true });
+  res.json(updated);
+});
+
 // ===== UPDATE APIs =====
 
 // DATES
@@ -416,6 +451,11 @@ app.delete("/api/publishers/:id", requireMongo, async (req,res)=>{
 
 app.delete("/api/partners/:id", requireMongo, async (req,res)=>{
   await Partner.findByIdAndDelete(req.params.id);
+  res.json({success:true});
+});
+
+app.delete("/api/top-right-logos/:id", requireMongo, async (req,res)=>{
+  await TopRightLogo.findByIdAndDelete(req.params.id);
   res.json({success:true});
 });
 

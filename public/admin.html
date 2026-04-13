@@ -97,6 +97,15 @@ input{width:100%;padding:12px;margin-bottom:12px;border-radius:10px;border:1px s
 <div class="hr"></div><div id="partnerList"></div>
 </div>
 
+<!-- TOP RIGHT LOGOS -->
+<div class="card full-width">
+<h2>Top Right Logos</h2><div class="hr"></div>
+<input id="trPosition" placeholder="Position">
+<input type="file" id="trImg">
+<button class="btn" onclick="addTopRightLogo()">Add</button>
+<div class="hr"></div><div id="topRightLogoList"></div>
+</div>
+
 <!-- NAVIGATION TABS -->
 <div class="card full-width">
   <h2>Navigation Tabs</h2>
@@ -457,6 +466,68 @@ async function deletePartner(id){
   loadPartners();
 }
 
+async function loadTopRightLogos(){
+  const data = await apiFetch("top-right-logos");
+  const container = document.getElementById("topRightLogoList");
+  container.innerHTML = "";
+
+  data.forEach(logo=>{
+    container.innerHTML += `
+      <div class="simple-item">
+        <div class="item-info">
+          <img src="${logo.image}">
+          <div>
+            <b>Top Right Logo</b><br>
+            <small>Position ${logo.position || "-"}</small>
+          </div>
+        </div>
+        <div>
+          <button class="btn-outline" onclick="editTopRightLogo('${logo._id}','${logo.position || ""}')">Edit</button>
+          <button class="btn-outline" onclick="deleteTopRightLogo('${logo._id}')">Delete</button>
+        </div>
+      </div>`;
+  });
+}
+
+function editTopRightLogo(id, position){
+  editMode={type:"topRightLogo",id};
+  trPosition.value=position;
+}
+
+async function addTopRightLogo(){
+  try{
+    const fd = new FormData();
+    fd.append("position", trPosition.value);
+    if(trImg.files[0]) fd.append("image", trImg.files[0]);
+
+    if(!trImg.files[0] && editMode.type!=="topRightLogo"){
+      showToast("Choose an image ❌", false);
+      return;
+    }
+
+    if(editMode.type==="topRightLogo"){
+      await fetch(`${BASE}/top-right-logos/${editMode.id}`,{method:"PUT",body:fd});
+      showToast("Top right logo updated ✅");
+    }else{
+      await fetch(`${BASE}/top-right-logos`,{method:"POST",body:fd});
+      showToast("Top right logo added ✅");
+    }
+
+    editMode={};
+    trPosition.value="";
+    trImg.value="";
+    loadTopRightLogos();
+  }catch{
+    showToast("Failed to save top right logo ❌", false);
+  }
+}
+
+async function deleteTopRightLogo(id){
+  await fetch(`${BASE}/top-right-logos/${id}`,{method:"DELETE"});
+  showToast("Top right logo deleted ✅");
+  loadTopRightLogos();
+}
+
 // ================= NAVTABS =================
 async function addTab(){
   try{
@@ -556,12 +627,15 @@ if (committeeImageInput) committeeImageInput.onchange = ()=> previewImage(commit
 if (publisherLogoInput) publisherLogoInput.onchange = ()=> previewImage(publisherLogoInput,"pubPreview");
 if (partnerLogoInput) partnerLogoInput.onchange = ()=> previewImage(partnerLogoInput,"partnerPreview");
 
-loadDates();
-loadSpeakers();
-loadCommittee();
-loadPublishers();
-loadPartners();
-loadTabs();
+window.addEventListener("DOMContentLoaded", async ()=>{
+  loadDates();
+  loadSpeakers();
+  loadCommittee();
+  loadPublishers();
+  loadPartners();
+  loadTopRightLogos();
+  loadTabs();
+});
 </script>
 <div id="toast" style="
 position:fixed;

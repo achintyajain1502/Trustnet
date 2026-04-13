@@ -83,21 +83,14 @@ button{
 </div>
 
 <script>
-/* 🔐 ADMIN CREDENTIALS */
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "trustnet123";
-
-/* LOGIN FUNCTION */
-function login(){
+async function login(){
   const u = document.getElementById("username").value;
   const p = document.getElementById("password").value;
-
-  if(u === ADMIN_USERNAME && p === ADMIN_PASSWORD){
+  if(u === "admin" && p === "trustnet123"){
     sessionStorage.setItem("adminLoggedIn","true");
     window.location.href = "admin.html";
   } else {
-    document.getElementById("error").innerText =
-      "Invalid username or password";
+    document.getElementById("error").innerText = "Invalid credentials";
   }
 }
 </script>
