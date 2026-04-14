@@ -43,9 +43,13 @@ https://trustnet-lime.vercel.app/admin.html
 
 
 trustnet/
-├── frontend/
-├── backend/
+├── models/
 ├── public/
+├── uploads/
+├── server.js
+├── index.js
+├── package.json
+├── vercel.json
 └── README.md
 
 
@@ -59,6 +63,8 @@ npm install
 node server.js
 
 Open index.html in browser
+
+---
 
 ## ✨ Features
 
