@@ -16,6 +16,8 @@ https://trustnet-lime.vercel.app
 **Admin Panel:**  
 https://trustnet-lime.vercel.app/admin.html  
 
+<img width="1000" height="1000" alt="qrcode_333328515_2c90df94388cb87eef02b46f0916fc4d" src="https://github.com/user-attachments/assets/db6c5435-78b4-4682-87fd-19c2605a13a1" />
+
 ---
 
 ## 🛠️ Tech Stack
