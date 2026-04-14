@@ -81,7 +81,8 @@ git clone https://github.com/achintyajain1502/Trustnet.git
 cd Trustnet/backend
 npm install
 node server.js
-
+---
+##
 Open index.html in browser
 
 ---
