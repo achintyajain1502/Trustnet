@@ -74,8 +74,6 @@ trustnet/
 - Admin Dashboard operations  
 
 ---
-
----
 ## ⚙️ Quick Start  
 
 ```bash
