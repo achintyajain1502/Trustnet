@@ -82,10 +82,8 @@ cd Trustnet/backend
 npm install
 node server.js
 ---
-
 Open index.html in browser
 
-## 👨‍💻 Author
+##👨‍💻 Author
 
 **Achintya Jain**
----
